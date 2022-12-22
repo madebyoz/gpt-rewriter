@@ -42,13 +42,13 @@ const Home = () => {
             <h1>Course Generator</h1>
           </div>
           <div className="header-subtitle">
-            <h2>Drop what you're teaching your students. Create a course personalized for them</h2>
+            <h2>Drop what you want to learn. Create a course personalized for you</h2>
           </div>
         </div>
         <div className="prompt-container">
           <textarea 
           className="prompt-box"
-          placeholder="start typing here" 
+          placeholder="About what? Type here" 
           value={userInput}
           onChange={onUserChangedText}
            />
