@@ -1,32 +1,34 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import buildspaceLogo from '../assets/buildspace-logo.png';
-import { useState } from 'react';
+import Head from "next/head";
+import Image from "next/image";
+import { useState } from "react";
+import InputPage from "./InputPage";
+import OutputPage from "./OutputPage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Link from "next/link";
 
 const Home = () => {
-  const [userInput, setUserInput] = useState('');
-  const [apiOutput, setApiOutput] = useState('')
-  const [isGenerating, setIsGenerating] = useState(false)
-
+  const [userInput, setUserInput] = useState("");
+  const [apiOutput, setApiOutput] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
   const callGenerateEndpoint = async () => {
-  setIsGenerating(true);
-  
-  console.log("Calling OpenAI...")
-  const response = await fetch('/api/generate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userInput }),
-  });
+    setIsGenerating(true);
 
-  const data = await response.json();
-  const { output } = data;
-  console.log("OpenAI replied...", output.text)
+    console.log("Calling OpenAI...");
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userInput }),
+    });
 
-  setApiOutput(`${output.text}`);
-  setIsGenerating(false);
-}
+    const data = await response.json();
+    const { output } = data;
+    console.log("OpenAI replied...", output.text);
+
+    setApiOutput(`${output.text}`);
+    setIsGenerating(false);
+  };
   const onUserChangedText = (event) => {
     setUserInput(event.target.value);
   };
@@ -39,41 +41,51 @@ const Home = () => {
       <div className="container">
         <div className="header">
           <div className="header-title">
-            <h1>Course Generator</h1>
+            <h1>Learning Roadmap Generator</h1>
           </div>
           <div className="header-subtitle">
-            <h2>Drop what you want to learn. Create a course personalized for you</h2>
+            <h2>
+              Drop what you want to be. Create a learning roadmap to your dream
+            </h2>
           </div>
         </div>
         <div className="prompt-container">
-          <textarea 
-          className="prompt-box"
-          placeholder="About what? Type here" 
-          value={userInput}
-          onChange={onUserChangedText}
-           />
-           <div className="prompt-buttons">
+          <p>Role you are targeting</p>
+          <textarea
+            className="prompt-box"
+            placeholder="Type here"
+            value={userInput.role}
+            onChange={onUserChangedText}
+          />
+
+          <div className="prompt-buttons">
             <a
-              className={isGenerating ? 'generate-button loading' : 'generate-button'}
+              className={
+                isGenerating ? "generate-button loading" : "generate-button"
+              }
               onClick={callGenerateEndpoint}
             >
               <div className="generate">
-              {isGenerating ? <span className="loader"></span> : <p>Generate</p>}
+                {isGenerating ? (
+                  <span className="loader"></span>
+                ) : (
+                  <p>Generate</p>
+                )}
               </div>
             </a>
           </div>
-            {apiOutput && (
+          {apiOutput && (
             <div className="output">
               <div className="output-header-container">
-               <div className="output-header">
-                <h3>Output</h3>
+                <div className="output-header">
+                  <h3>Output</h3>
+                </div>
+              </div>
+              <div className="output-content">
+                <p>{apiOutput}</p>
               </div>
             </div>
-    <div className="output-content">
-      <p>{apiOutput}</p>
-    </div>
-  </div>
-)}
+          )}
         </div>
       </div>
     </div>
