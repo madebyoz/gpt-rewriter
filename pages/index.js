@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import InputPage from "./InputPage";
-import OutputPage from "./OutputPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Link from "next/link";
 
@@ -24,9 +22,9 @@ const Home = () => {
 
     const data = await response.json();
     const { output } = data;
-    console.log("OpenAI replied...", output.text);
+    console.log("OpenAI replied...", output);
 
-    setApiOutput(`${output.text}`);
+    setApiOutput(`${output}`);
     setIsGenerating(false);
   };
   const onUserChangedText = (event) => {
