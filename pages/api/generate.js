@@ -6,17 +6,27 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 const basePromptPrefix = `
-Rewrite the text below in a more polite way 
+I will specify the sentences I want to rewrite and the style I want to use
+Rewrite the specified sentence with the specified style.The reply will only be the rewritten text, no explanation of it.
 `;
 
 const generateAction = async (req, res) => {
-  console.log(`API: ${basePromptPrefix}${req.body.userInput}`);
+  const { userInputCondition, userInputText } = req.body;
+  console.log(`API: ${basePromptPrefix}${req.body.userInputText}`);
 
   const baseCompletion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
-      { role: "system", content: "You are a good writer" },
-      { role: "user", content: `${basePromptPrefix}${req.body.userInput}` },
+      /*{ role: "system", content: "You are a good writer" },*/
+      {
+        role: "user",
+        content: `${basePromptPrefix}
+
+        Style:"
+        ${req.body.userInputCondition}",
+        Sentences:"
+        ${req.body.userInputText}"`,
+      },
     ],
   });
   console.log("baseCompletion: " + baseCompletion.data.choices[0].message);

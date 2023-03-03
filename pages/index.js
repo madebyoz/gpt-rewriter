@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Link from "next/link";
 
 const Home = () => {
-  const [userInput, setUserInput] = useState("");
+  const [userInputText, setUserInputText] = useState("");
+  const [userInputCondition, setUserInputCondition] = useState("");
   const [apiOutput, setApiOutput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const callGenerateEndpoint = async () => {
@@ -17,7 +18,7 @@ const Home = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userInput }),
+      body: JSON.stringify({ userInputCondition, userInputText }),
     });
 
     const data = await response.json();
@@ -28,7 +29,7 @@ const Home = () => {
     setIsGenerating(false);
   };
   const onUserChangedText = (event) => {
-    setUserInput(event.target.value);
+    setUserInputText(event.target.value);
   };
 
   return (
@@ -45,12 +46,20 @@ const Home = () => {
             <h2>Rewrite your text as you like</h2>
           </div>
         </div>
+
         <div className="prompt-container">
+          <p>Condition</p>
+          <textarea
+            className="prompt-box"
+            placeholder="Type here"
+            value={userInputCondition.role}
+            onChange={onUserChangedText}
+          />
           <p>Put your text</p>
           <textarea
             className="prompt-box"
             placeholder="Type here"
-            value={userInput.role}
+            value={userInputText.role}
             onChange={onUserChangedText}
           />
 
