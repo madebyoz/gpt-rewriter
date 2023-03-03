@@ -36,21 +36,19 @@ const Home = () => {
   return (
     <div className="root">
       <Head>
-        <title>GPT-3 Writer</title>
+        <title>GPT Rewriter</title>
       </Head>
       <div className="container">
         <div className="header">
           <div className="header-title">
-            <h1>Learning Roadmap Generator</h1>
+            <h1>GPT Rewriter</h1>
           </div>
           <div className="header-subtitle">
-            <h2>
-              Drop what you want to be. Create a learning roadmap to your dream
-            </h2>
+            <h2>Rewrite your text as you like</h2>
           </div>
         </div>
         <div className="prompt-container">
-          <p>Role you are targeting</p>
+          <p>Put your text</p>
           <textarea
             className="prompt-box"
             placeholder="Type here"
