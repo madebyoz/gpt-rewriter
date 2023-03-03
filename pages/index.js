@@ -1,10 +1,11 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Link from "next/link";
+import ClipboardJS from "clipboard";
 
 const Home = () => {
+  const [userInputAudience, setUserInputAudience] = useState("");
+  const [userInputFormality, setUserInputFormality] = useState("");
+  const [userInputDomain, setUserInputDomain] = useState("");
   const [userInputText, setUserInputText] = useState("");
   const [userInputCondition, setUserInputCondition] = useState("");
   const [apiOutput, setApiOutput] = useState("");
@@ -18,7 +19,13 @@ const Home = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userInputCondition, userInputText }),
+      body: JSON.stringify({
+        userInputAudience,
+        userInputFormality,
+        userInputDomain,
+        userInputCondition,
+        userInputText,
+      }),
     });
 
     const data = await response.json();
@@ -48,6 +55,47 @@ const Home = () => {
         </div>
 
         <div className="prompt-container">
+          <div class="column-container">
+            <div class="column_propmt">
+              <p>Audience</p>
+              <select
+                id="audience"
+                value={userInputAudience}
+                onChange={(e) => setUserInputAudience(e.target.value)}
+                size="3"
+              >
+                <option value="General">General</option>
+                <option value="Knowledgeable">Knowledgeable</option>
+                <option value="Expert">Expert</option>
+              </select>
+            </div>{" "}
+            <div class="column_propmt">
+              <p>Formality</p>
+              <select
+                id="framework"
+                value={userInputFormality}
+                onChange={(e) => setUserInputFormality(e.target.value)}
+                size="3"
+              >
+                <option value="Informal">Informal</option>
+                <option value="Natural">Natural</option>
+                <option value="Formal">Formal</option>
+              </select>
+            </div>{" "}
+            <div class="column_propmt">
+              <p>Role</p>
+              <select
+                id="framework"
+                value={userInputDomain}
+                onChange={(e) => setUserInputDomain(e.target.value)}
+                size="3"
+              >
+                <option value="Academic">Startup</option>
+                <option value="Investor">Investor</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+          </div>
           <p>Condition</p>
           <textarea
             className="prompt-box"
@@ -87,7 +135,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="output-content">
-                <p>{apiOutput}</p>
+                <p id="text-to-copy">{apiOutput}</p>
               </div>
             </div>
           )}

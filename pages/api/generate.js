@@ -7,12 +7,23 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 const basePromptPrefix = `
 I will specify the sentences I want to rewrite and the style I want to use
-Rewrite the specified sentence with the specified style.The reply will only be the rewritten text, no explanation of it.
+Rewrite the sentences entered by the user in the style specified by the user.The reply will only be the rewritten text, no explanation of it.
 `;
 
 const generateAction = async (req, res) => {
-  const { userInputCondition, userInputText } = req.body;
-  console.log(`API: ${basePromptPrefix}${req.body.userInputText}`);
+  const {
+    userInputAudience,
+    userInputFormality,
+    userInputDomain,
+    userInputCondition,
+    userInputText,
+  } = req.body;
+  console.log(`API: ${basePromptPrefix}
+  ${req.body.userInputAudience}
+  ${req.body.userInputFormality}
+  ${req.body.userInputDomain}
+  ${req.body.userInputCondition}
+  ${req.body.userInputText}`);
 
   const baseCompletion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -22,10 +33,11 @@ const generateAction = async (req, res) => {
         role: "user",
         content: `${basePromptPrefix}
 
-        Style:"
-        ${req.body.userInputCondition}",
-        Sentences:"
-        ${req.body.userInputText}"`,
+        Level of knowledge of the reader of the text:${req.body.userInputAudience},
+        Formality of the sentence:${req.body.userInputFormality},
+        Who you are going to rewrite the text as:${req.body.userInputDomain},
+        Other conditions: ${req.body.userInputCondition},
+        The sentences entered by the user: ${req.body.userInputText}`,
       },
     ],
   });

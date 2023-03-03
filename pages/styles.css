@@ -411,3 +411,30 @@ textarea {
     transform: rotate(360deg);
   }
 }
+
+.horizontal-blocks {
+  display: flex;
+}
+
+.block {
+  flex: 1;
+  height: 50px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.block.selected {
+  background-color: #ccc;
+  color: #fff;
+}
+
+#block-selector {
+  display: none;
+}
+
+.column-container {
+  display: flex;
+}
