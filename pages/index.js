@@ -212,6 +212,13 @@ const Home = () => {
 
             <button type="submit">Submit</button>
           </form>
+          <label>
+            Condition
+            <textarea
+              name="userInputCondition"
+              className="prompt-box"
+            ></textarea>
+          </label>
 
           {apiOutput && (
             <div className="output">
