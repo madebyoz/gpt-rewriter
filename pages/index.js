@@ -7,6 +7,10 @@ const Home = () => {
     userInputAudience: "",
     userInputFormality: "",
     userInputDomain: "",
+    userInputVolume: "",
+    userInputLanguage: "",
+    userInputSimple: "",
+    userInputCompelling: "",
     userInputText: "",
     userInputCondition: "",
   });
@@ -28,6 +32,10 @@ const Home = () => {
         userInputAudience: formData.userInputAudience,
         userInputFormality: formData.userInputFormality,
         userInputDomain: formData.userInputDomain,
+        userInputVolume: formData.userInputVolume,
+        userInputLanguage: formData.userInputLanguage,
+        userInputSimple: formData.userInputSimple,
+        userInputCompelling: formData.userInputCompelling,
         userInputCondition: formData.userInputCondition,
         userInputText: formData.userInputText,
       }),
@@ -49,6 +57,10 @@ const Home = () => {
     const userInputAudience = event.target.userInputAudience.value;
     const userInputFormality = event.target.userInputFormality.value;
     const userInputDomain = event.target.userInputDomain.value;
+    const userInputVolume = event.target.userInputVolume.value;
+    const userInputLanguage = event.target.userInputLanguage.value;
+    const userInputSimple = event.target.userInputSimple.value;
+    const userInputCompelling = event.target.userInputCompelling.value;
     const userInputText = event.target.userInputText.value;
     const userInputCondition = event.target.userInputCondition.value;
 
@@ -57,6 +69,10 @@ const Home = () => {
       userInputAudience,
       userInputFormality,
       userInputDomain,
+      userInputVolume,
+      userInputLanguage,
+      userInputSimple,
+      userInputCompelling,
       userInputText,
       userInputCondition,
     };
@@ -134,35 +150,33 @@ const Home = () => {
                 </label>
               </div>
               <div className="option-box">
-                <p>Domain:</p>
+                <p>Role:</p>
                 <label>
-                  <select name="userInputDomain">
-                    <option value="Startup">Startup</option>
-                    <option value="Investor">Investor</option>
-                    <option value="General">General</option>
-                  </select>
-                </label>
-              </div>
-              <div className="option-box">
-                <p>Volume:</p>
-                <label>
-                  <input
-                    type="radio"
-                    name="userInputFormality"
-                    value="General"
-                  />
+                  <input type="radio" name="userInputDomain" value="General" />
                   General
                 </label>
                 <label>
-                  <input
-                    type="radio"
-                    name="userInputFormality"
-                    value="Twitter"
-                  />
+                  <input type="radio" name="userInputDomain" value="Startup" />
+                  Startup
+                </label>
+                <label>
+                  <input type="radio" name="userInputDomain" value="Investor" />
+                  Investor
+                </label>
+              </div>
+
+              <div className="option-box">
+                <p>Volume:</p>
+                <label>
+                  <input type="radio" name="userInputVolume" value="General" />
+                  General
+                </label>
+                <label>
+                  <input type="radio" name="userInputVolume" value="Twitter" />
                   Twitter
                 </label>
                 <label>
-                  <input type="radio" name="userInputFormality" value="Mail" />
+                  <input type="radio" name="userInputVolume" value="Mail" />
                   Mail
                 </label>
               </div>
@@ -171,7 +185,7 @@ const Home = () => {
                 <label>
                   <input
                     type="radio"
-                    name="userInputFormality"
+                    name="userInputLanguage"
                     value="English"
                   />
                   English
@@ -179,7 +193,7 @@ const Home = () => {
                 <label>
                   <input
                     type="radio"
-                    name="userInputFormality"
+                    name="userInputLanguage"
                     value="Japanese"
                   />
                   Japanese
@@ -190,7 +204,7 @@ const Home = () => {
                 <label>
                   <input
                     type="checkbox"
-                    name="userInputFormality"
+                    name="userInputSimple"
                     value="Simple"
                   />
                   Simple
@@ -198,27 +212,30 @@ const Home = () => {
                 <label>
                   <input
                     type="checkbox"
-                    name="userInputFormality"
+                    name="userInputCompelling"
                     value="Compelling"
                   />
                   Compelling
                 </label>
               </div>
             </div>
+
             <label>
-              Text:
+              Additional conditions
+              <textarea
+                name="userInputCondition"
+                className="prompt-box"
+              ></textarea>
+            </label>
+            <label>
+              Input Text:
               <textarea name="userInputText" className="prompt-box"></textarea>
             </label>
 
-            <button type="submit">Submit</button>
+            <button type="submit" className="generate-button ">
+              Submit
+            </button>
           </form>
-          <label>
-            Condition
-            <textarea
-              name="userInputCondition"
-              className="prompt-box"
-            ></textarea>
-          </label>
 
           {apiOutput && (
             <div className="output">

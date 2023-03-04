@@ -15,6 +15,10 @@ const generateAction = async (req, res) => {
     userInputAudience,
     userInputFormality,
     userInputDomain,
+    userInputVolume,
+    userInputLanguage,
+    userInputSimple,
+    userInputCompelling,
     userInputCondition,
     userInputText,
   } = req.body;
@@ -22,6 +26,10 @@ const generateAction = async (req, res) => {
   ${req.body.userInputAudience}
   ${req.body.userInputFormality}
   ${req.body.userInputDomain}
+  ${req.body.userInputVolume}
+  ${req.body.userInputLanguage}
+  ${req.body.userInputSimple}
+  ${req.body.userInputCompelling}
   ${req.body.userInputCondition}
   ${req.body.userInputText}`);
 
@@ -33,9 +41,15 @@ const generateAction = async (req, res) => {
         role: "user",
         content: `${basePromptPrefix}
 
-        Level of knowledge of the reader of the text:${req.body.userInputAudience},
-        Formality of the sentence:${req.body.userInputFormality},
-        Who you are going to rewrite the text as:${req.body.userInputDomain},
+        Knowledge level of the intended audience of the rewritten sentence:${req.body.userInputAudience},
+        Formality of the rewritten sentence:${req.body.userInputFormality},
+        Who you are going to rewrite the sentence as:${req.body.userInputDomain},
+        Volume of the rewritten sentence:${req.body.userInputVolume},
+        Language of the rewritten sentence:${req.body.userInputLanguage},
+        Simplicity of the rewritten sentence:${req.body.userInputSimple},
+        Compelling power of the rewritten sentence:${req.body.userInputCompelling},
+        Language of the rewritten sentence:${req.body.userInputLanguage},
+
         Other conditions: ${req.body.userInputCondition},
         The sentences entered by the user: ${req.body.userInputText}`,
       },
