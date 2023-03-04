@@ -3,28 +3,33 @@ import { useState } from "react";
 import ClipboardJS from "clipboard";
 
 const Home = () => {
-  const [userInputAudience, setUserInputAudience] = useState("");
-  const [userInputFormality, setUserInputFormality] = useState("");
-  const [userInputDomain, setUserInputDomain] = useState("");
-  const [userInputText, setUserInputText] = useState("");
-  const [userInputCondition, setUserInputCondition] = useState("");
+  const [formData, setFormData] = useState({
+    userInputAudience: "",
+    userInputFormality: "",
+    userInputDomain: "",
+    userInputText: "",
+    userInputCondition: "",
+  });
   const [apiOutput, setApiOutput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const callGenerateEndpoint = async () => {
     setIsGenerating(true);
 
     console.log("Calling OpenAI...");
+    console.log(
+      `${formData.userInputAudience}${formData.userInputFormality}${formData.userInputDomain}`
+    );
     const response = await fetch("/api/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userInputAudience,
-        userInputFormality,
-        userInputDomain,
-        userInputCondition,
-        userInputText,
+        userInputAudience: formData.userInputAudience,
+        userInputFormality: formData.userInputFormality,
+        userInputDomain: formData.userInputDomain,
+        userInputCondition: formData.userInputCondition,
+        userInputText: formData.userInputText,
       }),
     });
 
@@ -37,6 +42,28 @@ const Home = () => {
   };
   const onUserChangedText = (event) => {
     setUserInputText(event.target.value);
+  };
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    const userInputAudience = event.target.userInputAudience.value;
+    const userInputFormality = event.target.userInputFormality.value;
+    const userInputDomain = event.target.userInputDomain.value;
+    const userInputText = event.target.userInputText.value;
+    const userInputCondition = event.target.userInputCondition.value;
+
+    const newFormData = {
+      ...formData,
+      userInputAudience,
+      userInputFormality,
+      userInputDomain,
+      userInputText,
+      userInputCondition,
+    };
+
+    setFormData(newFormData);
+
+    callGenerateEndpoint();
   };
 
   return (
@@ -53,80 +80,139 @@ const Home = () => {
             <h2>Rewrite your text as you like</h2>
           </div>
         </div>
-
-        <div className="prompt-container">
-          <div class="column-container">
-            <div class="column_propmt">
-              <p>Audience</p>
-              <select
-                id="audience"
-                value={userInputAudience}
-                onChange={(e) => setUserInputAudience(e.target.value)}
-                size="3"
-              >
-                <option value="General">General</option>
-                <option value="Knowledgeable">Knowledgeable</option>
-                <option value="Expert">Expert</option>
-              </select>
-            </div>{" "}
-            <div class="column_propmt">
-              <p>Formality</p>
-              <select
-                id="framework"
-                value={userInputFormality}
-                onChange={(e) => setUserInputFormality(e.target.value)}
-                size="3"
-              >
-                <option value="Informal">Informal</option>
-                <option value="Natural">Natural</option>
-                <option value="Formal">Formal</option>
-              </select>
-            </div>{" "}
-            <div class="column_propmt">
-              <p>Role</p>
-              <select
-                id="framework"
-                value={userInputDomain}
-                onChange={(e) => setUserInputDomain(e.target.value)}
-                size="3"
-              >
-                <option value="Academic">Startup</option>
-                <option value="Investor">Investor</option>
-                <option value="General">General</option>
-              </select>
-            </div>
-          </div>
-          <p>Condition</p>
-          <textarea
-            className="prompt-box"
-            placeholder="Type here"
-            value={userInputCondition.role}
-            onChange={onUserChangedText}
-          />
-          <p>Put your text</p>
-          <textarea
-            className="prompt-box"
-            placeholder="Type here"
-            value={userInputText.role}
-            onChange={onUserChangedText}
-          />
-
-          <div className="prompt-buttons">
-            <a
-              className={
-                isGenerating ? "generate-button loading" : "generate-button"
-              }
-              onClick={callGenerateEndpoint}
-            >
-              <div className="generate">
-                {isGenerating ? (
-                  <span className="loader"></span>
-                ) : (
-                  <p>Generate</p>
-                )}
+        <div className="Input-output">
+          <form onSubmit={onFormSubmit}>
+            <div>
+              <div className="option-box">
+                <p>Audience:</p>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputAudience"
+                    value="General"
+                  />
+                  General
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputAudience"
+                    value="Knowledgeable"
+                  />
+                  Knowledgeable
+                </label>
+                <label>
+                  <input type="radio" name="userInputAudience" value="Expert" />
+                  Expert
+                </label>
               </div>
-            </a>
-          </div>
+              <div className="option-box">
+                <p>Formality:</p>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="Informal"
+                  />
+                  Informal
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="Natural"
+                  />
+                  Natural
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="Formal"
+                  />
+                  Formal
+                </label>
+              </div>
+              <div className="option-box">
+                <p>Domain:</p>
+                <label>
+                  <select name="userInputDomain">
+                    <option value="Startup">Startup</option>
+                    <option value="Investor">Investor</option>
+                    <option value="General">General</option>
+                  </select>
+                </label>
+              </div>
+              <div className="option-box">
+                <p>Volume:</p>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="General"
+                  />
+                  General
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="Twitter"
+                  />
+                  Twitter
+                </label>
+                <label>
+                  <input type="radio" name="userInputFormality" value="Mail" />
+                  Mail
+                </label>
+              </div>
+              <div className="option-box">
+                <p>Language:</p>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="English"
+                  />
+                  English
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="userInputFormality"
+                    value="Japanese"
+                  />
+                  Japanese
+                </label>
+              </div>
+              <div className="option-box">
+                <p>Others:</p>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="userInputFormality"
+                    value="Simple"
+                  />
+                  Simple
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="userInputFormality"
+                    value="Compelling"
+                  />
+                  Compelling
+                </label>
+              </div>
+            </div>
+            <label>
+              Text:
+              <textarea name="userInputText" className="prompt-box"></textarea>
+            </label>
+
+            <button type="submit">Submit</button>
+          </form>
+
           {apiOutput && (
             <div className="output">
               <div className="output-header-container">
